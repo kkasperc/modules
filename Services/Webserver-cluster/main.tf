@@ -7,7 +7,7 @@ resource aws_alb "apploadbalancer"{
   name = "${var.cluster_name}-alb"
   internal = false
   load_balancer_type = "application"
-  security_groups = [aws_security_group.sec_gr_http.id]
+  security_groups = [aws_security_group.alb.id]
   #vpc_id = "vpc-0d935167"
   subnets = ["subnet-58b01a32","subnet-3f618043", "subnet-821ce8ce"]
 }
@@ -59,6 +59,7 @@ resource "aws_lb_listener_rule" "listnerrule" {
 resource aws_launch_configuration "vmki"{
   name = "${var.cluster_name}-vmki"
   image_id = "ami-05af9eea1ba999713"
+  associate_public_ip_address = false
   instance_type = "t2.micro"
   security_groups = [aws_security_group.sec_gr_http.id]
 
@@ -105,29 +106,8 @@ tag {
 #   }
 # }
 
-resource "aws_security_group" "sec_gr_http" {
-  name = "${var.cluster_name}-Allow http"
-  description = "Allow traffic on port 80"
 
-  ingress{
-    description = "Allow port 80"
-    from_port = var.server_port
-    to_port = var.server_port
-    protocol = "tcp"
-    cidr_blocks = aws_alb.ip_address_type
-  }
-  tags = {
-    name = "Allow port 80"
-  }
 
-  egress {
-    description = "Allow all outboud"
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
 
 # output "IP" {
 #   value = "curl http://${aws_instance.Probny.public_ip}:${var.server_port}"
