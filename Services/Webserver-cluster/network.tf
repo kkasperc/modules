@@ -1,5 +1,5 @@
 resource "aws_security_group" "alb" {
-  name = "${var.cluster_name}-Allow http"
+  name = "${var.cluster_name}-ALB"
   description = "Allow traffic on port 80"
 
   ingress{
