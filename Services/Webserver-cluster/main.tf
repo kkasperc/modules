@@ -61,7 +61,7 @@ resource aws_launch_configuration "vmki"{
   image_id = "ami-05af9eea1ba999713"
   associate_public_ip_address = false
   instance_type = "t2.micro"
-  security_groups = [aws_security_group.sec_gr_http.id]
+  security_groups = [aws_security_group.internal-traffic.id]
 
   user_data = <<-EOF
               #!/bin/bash
