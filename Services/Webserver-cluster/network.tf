@@ -27,21 +27,21 @@ resource "aws_security_group" "internal-traffic" {
   description = "Allow traffic on port 80 Internal only"
 
   ingress{
-    description = "Allow port 80"
+    description = "Allow port 80 from ALB"
     from_port = var.server_port
     to_port = var.server_port
     protocol = "tcp"
-    cidr_blocks = aws_security_group.alb
+    security_groups = aws_security_group.alb
   }
   tags = {
     name = "Allow port 80"
   }
 
   egress {
-    description = "Allow all outboud"
+    description = "Allow all outboud to ALB"
     from_port = 0
     to_port = 0
     protocol = "-1"
-    cidr_blocks = aws_security_group.alb
+    security_groups  = aws_security_group.alb
   }
 }
