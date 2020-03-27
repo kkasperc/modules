@@ -65,7 +65,7 @@ resource aws_launch_configuration "vmki"{
   user_data = <<-EOF
               #!/bin/bash
               yum install httpd -y
-              echo "Hello, World" > /var/www/html/index.html
+              echo "Hello, World from ${var.cluster_name}" > /var/www/html/index.html
               systemctl start httpd
               EOF
 
@@ -114,7 +114,7 @@ resource "aws_security_group" "sec_gr_http" {
     from_port = var.server_port
     to_port = var.server_port
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = aws_alb.ip_address_type
   }
   tags = {
     name = "Allow port 80"
