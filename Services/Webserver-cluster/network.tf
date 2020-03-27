@@ -31,7 +31,7 @@ resource "aws_security_group" "internal-traffic" {
     from_port = var.server_port
     to_port = var.server_port
     protocol = "tcp"
-    security_groups = aws_security_group.alb
+    security_groups = aws_security_group.alb.name
   }
   tags = {
     name = "Allow port 80"
@@ -42,6 +42,6 @@ resource "aws_security_group" "internal-traffic" {
     from_port = 0
     to_port = 0
     protocol = "-1"
-    security_groups  = aws_security_group.alb
+    security_groups  = aws_security_group.alb.name
   }
 }
